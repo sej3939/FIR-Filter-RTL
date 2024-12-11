@@ -795,11 +795,11 @@ module fir_core (
 endmodule
 
 // ------------------------------------------------------------------
-//  Design Unit:    fir
+//  Design Unit:    tt_um_fir
 // ------------------------------------------------------------------
 
 
-module fir (
+module tt_um_fir (
   input  wire [7:0] ui_in,    // Dedicated inputs
   output wire [7:0] uo_out,   // Dedicated outputs
   input  wire [7:0] uio_in,   // IOs: Input path
