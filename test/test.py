@@ -29,10 +29,10 @@ async def test_project(dut):
     input_seq = [0, 0, 0, 0, 0, 0]
 
     # Set the input values you want to test
-    for i in range(input_seq):
+    for i in input_seq:
         
         
-        for j in range(input_seq):
+        for j in input_seq:
             dut.input_fir.value = input_seq
             
             # Wait for one clock cycle to see the output values
