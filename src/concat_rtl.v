@@ -820,7 +820,7 @@ module tt_um_fir (
       .x_triosy_lz()
     );
 
-  assign uo_out = 8'b00000000;
+  assign uio_out = 8'b00000000;
   assign uio_oe = 8'b00000000;
 endmodule
 
