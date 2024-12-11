@@ -512,27 +512,34 @@ endmodule
 // ------------------------------------------------------------------
 
 
-module fir (
-  clk, rst, y_rsc_dat, y_triosy_lz, x_rsc_dat, x_triosy_lz
+// ------------------------------------------------------------------
+//  Design Unit:    tt_um_fir
+// ------------------------------------------------------------------
+
+
+module tt_um_fir (
+  input  wire [7:0] ui_in,    // Dedicated inputs
+  output wire [7:0] uo_out,   // Dedicated outputs
+  input  wire [7:0] uio_in,   // IOs: Input path
+  output wire [7:0] uio_out,  // IOs: Output path
+  output wire [7:0] uio_oe,   // IOs: Enable path (active high: 0=input, 1=output)
+  input  wire       ena,      // always 1 when the design is powered, so you can ignore it
+  input  wire       clk,      // clock
+  input  wire       rst_n     // reset_n - low to reset
 );
-  input clk;
-  input rst;
-  output [7:0] y_rsc_dat;
-  output y_triosy_lz;
-  input [7:0] x_rsc_dat;
-  output x_triosy_lz;
-
-
 
   // Interconnect Declarations for Component Instantiations 
   fir_core fir_core_inst (
       .clk(clk),
-      .rst(rst),
-      .y_rsc_dat(y_rsc_dat),
-      .y_triosy_lz(y_triosy_lz),
-      .x_rsc_dat(x_rsc_dat),
-      .x_triosy_lz(x_triosy_lz)
+      .rst(~rst_n),
+      .y_rsc_dat(uo_out),
+      .y_triosy_lz(),
+      .x_rsc_dat(ui_in),
+      .x_triosy_lz()
     );
+
+  assign uio_out = 8'b00000000;
+  assign uio_oe = 8'b00000000;
 endmodule
 
 
