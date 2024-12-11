@@ -29,7 +29,7 @@ async def test_project(dut):
     input_seq = [0, 0, 0, 0, 0, 0]
 
     # Set the input values you want to test
-    for i in range(input_seq ** 2):
+    for i in range(input_seq):
         
         
         for j in range(input_seq):
