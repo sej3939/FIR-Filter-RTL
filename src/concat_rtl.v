@@ -813,7 +813,7 @@ module tt_um_fir (
   // Interconnect Declarations for Component Instantiations 
   fir_core fir_core_inst (
       .clk(clk),
-      .rst(rst_n),
+      .rst(~rst_n),
       .y_rsc_dat(uio_out[7]),
       .y_triosy_lz(y_triosy_lz),
       .x_rsc_dat(ui_in),
