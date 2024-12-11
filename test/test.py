@@ -33,7 +33,7 @@ async def test_project(dut):
         
         
         for j in input_seq:
-            dut.input_fir.value = input_seq
+            dut.input_fir.value = j
             
             # Wait for one clock cycle to see the output values
             await ClockCycles(dut.clk, 10)
