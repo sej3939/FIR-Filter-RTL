@@ -48,8 +48,8 @@ pinout:
   uio[3]: ""
   uio[4]: ""
   uio[5]: ""
-  uio[6]: "input_ready"
-  uio[7]: "output_ready"
+  uio[6]: ""
+  uio[7]: ""
 
 # Do not change!
 yaml_version: 6
