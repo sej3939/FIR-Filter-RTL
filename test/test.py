@@ -4,30 +4,49 @@
 import cocotb
 from cocotb.clock import Clock
 from cocotb.triggers import ClockCycles
+from cocotb.regression import TestFactory
+from cocotb.binary import BinaryValue
+from cocotb.regression import TestFactory
 
-def right_shift_and_insert(arr, insertion):
-    return [insertion] + arr[:-1]  # Add insertion at the start, drop the last element
+# FIR filter implementation in Python (matching the C implementation)
+N_TAPS = 6
+c = [75, 0, 95, 95, 0, 75]
 
-def mult_and_sum(arr1, arr2):
-    sum = 0
-    
-        sum += arr1[i] * arr2[i]
-    return sum
+# The shift register is static in C, so we can simulate it as a list in Python
+shift_reg = [0] * N_TAPS
 
-@cocotb.test()
-async def test_project(dut):
-    dut._log.info("Start")
+def fir(x):
+    acc = 0
+    # Shift and accumulate loop
+    for i in range(N_TAPS-1, -1, -1):
+        if i == 0:
+            acc += x * c[0]
+            shift_reg[0] = x
+        else:
+            shift_reg[i] = shift_reg[i-1]
+            acc += shift_reg[i] * c[i]
+    return acc
 
-    # Set the clock period to 10 us (100 KHz)
-    clock = Clock(dut.clk, 10, units="us")
-    cocotb.start_soon(clock.start())
+# Testbench using cocotb
+@cocotb.coroutine
+def test_fir(dut):
+    for i in range(30):  # Iterate over 30 input values
+        # Apply the input value `i` and get the output from `fir` function
+        expected_output = fir(i)
 
-    dut._log.info("Test project behavior")
-    
-    TAPS = [75, 0, 95, 95, 0, 75]
-    input_mem = [0, 0, 0, 0, 0, 0]
-    input_seq = [1, 1, 0, 0, 0, 0]
+        # Assign input to the DUT (assuming input is on 'x' and output is on 'y')
+        dut.x <= i  # Provide the input to the DUT
+        yield cocotb.clock.scenario(1)  # Wait for one clock cycle
 
-    # Set the input values you want to test
-    
+        # Get the output from the DUT
+        dut_output = dut.y.value.integer  # Assuming output is 'y'
 
+        # Check if the output is as expected
+        assert dut_output == expected_output, f"Test failed for i = {i}: Expected {expected_output}, got {dut_output}"
+
+        # Print the result for verification
+        print(f"i: {i} - Expected y: {expected_output} - DUT y: {dut_output}")
+
+# Create the test factory and run the test
+factory = TestFactory(test_fir)
+factory.generate_tests()
