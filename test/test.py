@@ -36,7 +36,7 @@ def test_fir(dut):
 
         # Assign input to the DUT (assuming input is on 'x' and output is on 'y')
         dut.input_fir.value <= i  # Provide the input to the DUT
-        yield cocotb.clock.scenario(1)  # Wait for one clock cycle
+        await ClockCycles(dut.clk, 10)  # Wait for one clock cycle
 
         # Get the output from the DUT
         dut_output = dut.output_fir.value  # Assuming output is 'y'
