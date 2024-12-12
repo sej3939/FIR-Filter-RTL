@@ -4,9 +4,6 @@
 import cocotb
 from cocotb.clock import Clock
 from cocotb.triggers import ClockCycles
-from cocotb.regression import TestFactory
-from cocotb.binary import BinaryValue
-from cocotb.regression import TestFactory
 
 # FIR filter implementation in Python (matching the C implementation)
 N_TAPS = 6
@@ -28,8 +25,8 @@ def fir(x):
     return acc
 
 # Testbench using cocotb
-@cocotb.coroutine
-def test_fir(dut):
+@cocotb.test()
+async def test_project(dut):
     for i in range(30):  # Iterate over 30 input values
         # Apply the input value `i` and get the output from `fir` function
         expected_output = fir(i)
@@ -45,8 +42,6 @@ def test_fir(dut):
         assert dut_output == expected_output, f"Test failed for i = {i}: Expected {expected_output}, got {dut_output}"
 
         # Print the result for verification
-        print(f"i: {i} - Expected y: {expected_output} - DUT y: {dut_output}")
+        dut._log.info(f"i: {i} - Expected y: {expected_output} - DUT y: {dut_output}.")
 
-# Create the test factory and run the test
-factory = TestFactory(test_fir)
-factory.generate_tests()
+
