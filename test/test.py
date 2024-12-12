@@ -5,6 +5,7 @@ import cocotb
 from cocotb.clock import Clock
 from cocotb.triggers import ClockCycles
 
+@cocotb.test()
 # FIR filter implementation in Python (matching the C implementation)
 N_TAPS = 6
 c = [75, 0, 95, 95, 0, 75]
@@ -25,7 +26,7 @@ def fir(x):
     return acc
 
 # Testbench using cocotb
-@cocotb.test()
+
 async def test_project(dut):
     for i in range(30):  # Iterate over 30 input values
         # Apply the input value `i` and get the output from `fir` function
