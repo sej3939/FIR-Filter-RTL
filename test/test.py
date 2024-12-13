@@ -9,7 +9,7 @@ from cocotb.triggers import ClockCycles
 
 # FIR filter implementation in Python (matching the C implementation)
 N_TAPS = 6
-c = [75, 0, 95, 95, 0, 75]
+c = [2, 0, 5, 5, 0, 2]
     
 # The shift register is static in C, so we can simulate it as a list in Python
 shift_reg = [0] * N_TAPS
