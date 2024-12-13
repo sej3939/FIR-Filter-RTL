@@ -42,7 +42,7 @@ async def test_project(dut):
         expected_output = fir(i)
 
         # Assign input to the DUT (assuming input is on 'x' and output is on 'y')
-        dut.input_fir.value <= i  # Provide the input to the DUT
+        dut.input_fir.value = i  # Provide the input to the DUT
         await ClockCycles(dut.clk, 10)  # Wait for one clock cycle
 
         # Get the output from the DUT
