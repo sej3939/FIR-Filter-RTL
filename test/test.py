@@ -39,20 +39,15 @@ async def test_project(dut):
     dut.rst_n.value = 1;
 
     dut._log.info("Test project behavior")
-
     time = 0
     # Testbench using cocotb
-    for i in range(1,21): # Iterate over 20 input values
+    for i in range(0,20): # Iterate over 20 input values
         # Apply the input value `i` and get the output from `fir` function
         dut.input_fir.value = i # Provide the input to the DUT
-        expected_output = fir(i-1) # DUT delayed by a loop
+        expected_output = fir(i) # DUT delayed by a loop
 
-        while dut.y_trio.value == 0: # Wait until DUT is ready
-            await ClockCycles(dut.clk, 1)
-            time += 1
+        await ClockCycles(dut.clk, 44) # Throughput is 44 cycles
+        time += 44
         # Print the result for verification
-        if time != 0: # DUT outputs garbage values at time = 0
-            assert expected_output == dut.output_fir.value.integer
-            dut._log.info(f"time - {time} - i: {i-1} - Expected y: {expected_output} - DUT y: {dut.output_fir.value.integer}")
-        await ClockCycles(dut.clk, 1)
-        time += 1
+        assert expected_output == dut.output_fir.value.integer
+        dut._log.info(f"time - {time} - i: {i-1} - Expected y: {expected_output} - DUT y: {dut.output_fir.value.integer}")
