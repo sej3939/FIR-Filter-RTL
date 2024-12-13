@@ -65,7 +65,7 @@ async def test_fir(dut):
 
     # Initialize inputs
     dut.rst_n.value = 0
-    dut.ui_in.value = 0
+    dut.input_fir.value = 0
     await Timer(100, units="ns")  # Wait for reset to settle
 
     # Deassert reset
@@ -77,13 +77,13 @@ async def test_fir(dut):
     expected_output = [0, 0, 0, 0, 0, 0, 0, 0]  # Replace with actual FIR expected outputs
 
     for i, data in enumerate(test_data):
-        dut.ui_in.value = data
+        dut.input_fir.value = data
 
         # Wait for a clock cycle
         await RisingEdge(dut.clk)
 
         # Capture and print the output
-        output = dut.uo_out.value.signed_integer
+        output = dut.output_fir.value.signed_integer
         cocotb.log.info(f"Cycle {i + 1}: Input = {data}, Output = {output}")
 
         # Check against expected value (update `expected_output` with correct values)
