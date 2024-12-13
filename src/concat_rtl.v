@@ -530,7 +530,7 @@ module tt_um_fir (
       .y_rsc_dat(uo_out),
       .y_triosy_lz(),
       .x_rsc_dat(ui_in),
-      .x_triosy_lz()
+      .x_triosy_lz(1)
     );
 
   assign uio_out = 8'b00000000;
