@@ -43,7 +43,7 @@ async def test_project(dut):
     time = 0
     i = 0
     # Testbench using cocotb
-    for i in range(20): # Iterate over 20 input values
+    for i in range(1,20): # Iterate over 20 input values
         # Apply the input value `i` and get the output from `fir` function
         dut.input_fir.value = i # Provide the input to the DUT
         expected_output = fir(i-1) # DUT delayed by a loop
