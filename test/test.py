@@ -46,7 +46,7 @@ async def test_project(dut):
         expected_output = fir(i)
 
         dut.input_fir.value = i # Provide the input to the DUT
-        while !dut.y_trio.value == 1:
+        while dut.y_trio.value != 0:
             await ClockCycles(dut.clk, 1)
         # Print the result for verification
         dut._log.info(f"i: {i} - Expected y: {expected_output} - DUT y: {dut.output_fir.value.integer} - y_trio: {dut.y_trio.value} - x_trio: {dut.x_trio.value}.")
