@@ -38,11 +38,6 @@ async def test_project(dut):
     await ClockCycles(dut.clk, 1)
     dut.rst_n.value = 1;
 
-    dut.input_fir.value = 0
-    while dut.y_trio.value == 0:
-            await ClockCycles(dut.clk, 1)
-    await ClockCycles(dut.clk, 1)
-
     dut._log.info("Test project behavior")
     
     time = 0
@@ -52,10 +47,8 @@ async def test_project(dut):
         expected_output = fir(i)
 
         dut.input_fir.value = i # Provide the input to the DUT
-        while dut.y_trio.value == 0:
-            await ClockCycles(dut.clk, 1)
+        await ClockCycles(dut.clk, 44)
             time += 1
-        await ClockCycles(dut.clk, 1)
         time += 1
         # Print the result for verification
         dut._log.info(f"time - {time} - i: {i} - Expected y: {expected_output} - DUT y: {dut.output_fir.value.integer}.")
