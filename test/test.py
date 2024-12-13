@@ -45,19 +45,15 @@ async def test_project(dut):
     for i in range(20):  # Iterate over 30 input values
         # Apply the input value `i` and get the output from `fir` function
         expected_output = fir(i)
-
+        if time == 0:
+            await ClockCycles(dut.clk, 1)
         dut.input_fir.value = i # Provide the input to the DUT
         while dut.y_trio.value == 0:
             await ClockCycles(dut.clk, 1)
             time += 1
+        await ClockCycles(dut.clk, 1)
         # Print the result for verification
-        if time != 0:
-            dut._log.info(f"time - {time} - i: {i} - Expected y: {expected_output} - DUT y: {dut.output_fir.value.integer}.")
-            await ClockCycles(dut.clk, 1)
-            time += 1
-        else:
-            await ClockCycles(dut.clk, 1)
-            time += 1
+        dut._log.info(f"time - {time} - i: {i} - Expected y: {expected_output} - DUT y: {dut.output_fir.value.integer}.")
 
 """
 import cocotb
