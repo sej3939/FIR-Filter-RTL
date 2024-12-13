@@ -83,7 +83,7 @@ async def test_fir(dut):
         await RisingEdge(dut.clk)
 
         # Capture and print the output
-        output = dut.output_fir.value.signed_integer
+        output = dut.output_fir.value
         cocotb.log.info(f"Cycle {i + 1}: Input = {data}, Output = {output}")
 
         # Check against expected value (update `expected_output` with correct values)
