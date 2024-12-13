@@ -47,6 +47,7 @@ async def test_project(dut):
         expected_output = fir(i)
         if time == 0:
             await ClockCycles(dut.clk, 1)
+            time += 1
         dut.input_fir.value = i # Provide the input to the DUT
         while dut.y_trio.value == 0:
             await ClockCycles(dut.clk, 1)
