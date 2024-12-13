@@ -6,7 +6,7 @@ from cocotb.clock import Clock
 from cocotb.triggers import ClockCycles
 
 
-
+"""
 # FIR filter implementation in Python (matching the C implementation)
 N_TAPS = 6
 c = [75, 0, 95, 95, 0, 75]
@@ -49,5 +49,46 @@ async def test_project(dut):
 
         # Print the result for verification
         dut._log.info(f"i: {i} - Expected y: {expected_output} - DUT y: {dut.output_fir.value}.")
+"""
 
+import cocotb
+from cocotb.clock import Clock
+from cocotb.triggers import RisingEdge, FallingEdge, Timer
+
+@cocotb.test()
+async def test_fir(dut):
+    """ Testbench for FIR module using Cocotb """
+
+    # Create a clock with a period of 10ns (100 MHz)
+    clock = Clock(dut.clk, 10, units="ns")
+    cocotb.start_soon(clock.start())
+
+    # Initialize inputs
+    dut.rst_n.value = 0
+    dut.ui_in.value = 0
+    await Timer(100, units="ns")  # Wait for reset to settle
+
+    # Deassert reset
+    dut.rst_n.value = 1
+    await RisingEdge(dut.clk)  # Wait for a clock edge
+
+    # Input test sequence
+    test_data = [1, 2, 3, 4, 5, 6, 7, 8]  # Example input samples
+    expected_output = [0, 0, 0, 0, 0, 0, 0, 0]  # Replace with actual FIR expected outputs
+
+    for i, data in enumerate(test_data):
+        dut.ui_in.value = data
+
+        # Wait for a clock cycle
+        await RisingEdge(dut.clk)
+
+        # Capture and print the output
+        output = dut.uo_out.value.signed_integer
+        cocotb.log.info(f"Cycle {i + 1}: Input = {data}, Output = {output}")
+
+        # Check against expected value (update `expected_output` with correct values)
+        if i < len(expected_output):
+            assert output == expected_output[i], f"Mismatch at cycle {i + 1}: Expected {expected_output[i]}, Got {output}"
+
+    cocotb.log.info("Test completed successfully!")
 
