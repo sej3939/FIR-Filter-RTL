@@ -30,9 +30,12 @@ def fir(x):
 async def test_project(dut):
     dut._log.info("Start")
 
-    # Set the clock period to 10 us (100 KHz)
-    clock = Clock(dut.clk, 10, units="us")
+    # Set the clock period to 10 ns (100 MHz)
+    clock = Clock(dut.clk, 10, units="ns")
     cocotb.start_soon(clock.start())
+
+    dut.rst_n.value = 1;
+    dut.ena.value = 1;
 
     dut._log.info("Test project behavior")
 
@@ -41,9 +44,8 @@ async def test_project(dut):
         # Apply the input value `i` and get the output from `fir` function
         expected_output = fir(i)
 
-        # Assign input to the DUT (assuming input is on 'x' and output is on 'y')
-        dut.input_fir.value = i  # Provide the input to the DUT
-        await ClockCycles(dut.clk, 10)  # Wait for one clock cycle
+        dut.input_fir.value = i # Provide the input to the DUT
+        await ClockCycles(dut.clk, 20)  # Wait for twenty clock cycle
 
         # Get the output from the DUT
         dut_output = dut.output_fir.value  # Assuming output is 'y'
