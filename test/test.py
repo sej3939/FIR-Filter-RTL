@@ -45,7 +45,7 @@ async def test_project(dut):
         expected_output = fir(i)
 
         dut.input_fir.value = i # Provide the input to the DUT
-        await ClockCycles(dut.clk, 20)  # Wait for twenty clock cycle
+        await ClockCycles(dut.clk, 100)  # Wait for one clock cycle
 
         # Print the result for verification
         dut._log.info(f"i: {i} - Expected y: {expected_output} - DUT y: {dut.output_fir.value}.")
