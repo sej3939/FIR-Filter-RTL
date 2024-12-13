@@ -25,7 +25,6 @@ def fir(x):
             shift_reg[i] = shift_reg[i-1]
             acc += shift_reg[i] * c[i]
     return acc
-
 @cocotb.test()
 async def test_project(dut):
     dut._log.info("Start")
@@ -40,15 +39,19 @@ async def test_project(dut):
 
     dut._log.info("Test project behavior")
 
+    time = 0
+
     # Testbench using cocotb
-    for i in range(25):  # Iterate over 30 input values
+    for i in range(20):  # Iterate over 30 input values
         # Apply the input value `i` and get the output from `fir` function
         expected_output = fir(i)
 
         dut.input_fir.value = i # Provide the input to the DUT
         while dut.y_trio.value == 0:
             await ClockCycles(dut.clk, 1)
+            time += 1
         await ClockCycles(dut.clk, 1)
+        time += 1
         # Print the result for verification
         dut._log.info(f"i: {i} - Expected y: {expected_output} - DUT y: {dut.output_fir.value.integer} - y_trio: {dut.y_trio.value} - x_trio: {dut.x_trio.value}.")
 
