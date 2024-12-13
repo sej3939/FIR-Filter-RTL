@@ -53,6 +53,7 @@ async def test_project(dut):
             time += 1
         # Print the result for verification
         if time != 0: # DUT outputs garbage values at time = 0
+            assert expected_output == dut.output_fir.value.integer
             dut._log.info(f"time - {time} - i: {i-1} - Expected y: {expected_output} - DUT y: {dut.output_fir.value.integer}")
         await ClockCycles(dut.clk, 1)
         time += 1
