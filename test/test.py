@@ -40,7 +40,8 @@ async def test_project(dut):
     dut._log.info("Test project behavior")
 
     time = 0
-
+    while dut.y_trio.value == 0:
+            await ClockCycles(dut.clk, 1)
     # Testbench using cocotb
     for i in range(20):  # Iterate over 30 input values
         # Apply the input value `i` and get the output from `fir` function
