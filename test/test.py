@@ -41,12 +41,9 @@ async def test_project(dut):
     dut._log.info("Test project behavior")
 
     time = 0
-    dut.input_fir.value = 0
-    await ClockCycles(dut.clk, 1)
-    time += 1
-    
+    i = 0
     # Testbench using cocotb
-    for i in range(20):  # Iterate over 30 input values
+    while (i < 20): # Iterate over 20 input values
         # Apply the input value `i` and get the output from `fir` function
         expected_output = fir(i)
         dut.input_fir.value = i # Provide the input to the DUT
@@ -54,8 +51,10 @@ async def test_project(dut):
         while dut.y_trio.value == 0: # Halt until y_trio gets triggers (output updated)
             await ClockCycles(dut.clk, 1)
             time += 1
-        # Print the result for verification
-        dut._log.info(f"time - {time} - i: {i} - Expected y: {expected_output} - DUT y: {dut.output_fir.value}.")
+        if time != 0: # This is needed because y_trio will be triggered on startup with a garbage output value
+            # Print the result for verification
+            dut._log.info(f"time - {time} - i: {i} - Expected y: {expected_output} - DUT y: {dut.output_fir.value}.")
+            ++i
         await ClockCycles(dut.clk, 1)
         time += 1
 
