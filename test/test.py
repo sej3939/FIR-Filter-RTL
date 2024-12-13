@@ -41,7 +41,6 @@ async def test_project(dut):
     dut._log.info("Test project behavior")
 
     time = 0
-    i = 0
     # Testbench using cocotb
     for i in range(1,21): # Iterate over 20 input values
         # Apply the input value `i` and get the output from `fir` function
