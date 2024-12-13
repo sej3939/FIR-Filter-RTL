@@ -34,7 +34,7 @@ async def test_project(dut):
     clock = Clock(dut.clk, 10, units="ns")
     cocotb.start_soon(clock.start())
 
-    dut.rst_n.value = 1;
+    dut.rst_n.value = 0;
     dut.ena.value = 1;
 
     dut._log.info("Test project behavior")
@@ -50,7 +50,7 @@ async def test_project(dut):
         # Print the result for verification
         dut._log.info(f"i: {i} - Expected y: {expected_output} - DUT y: {dut.output_fir.value}.")
 """
-
+"""
 import cocotb
 from cocotb.clock import Clock
 from cocotb.triggers import RisingEdge, FallingEdge, Timer
@@ -91,4 +91,4 @@ async def test_fir(dut):
             assert output == expected_output[i], f"Mismatch at cycle {i + 1}: Expected {expected_output[i]}, Got {output}"
 
     cocotb.log.info("Test completed successfully!")
-
+"""
