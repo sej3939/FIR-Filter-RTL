@@ -20,9 +20,7 @@ module tb ();
   reg [7:0] input_fir;
   reg [7:0] uio_in;
   wire [7:0] output_fir;
-  wire x_trio;
-  wire y_trio;
-  wire [5:0] uio_out_dum;
+  wire [7:0] uio_out
   wire [7:0] uio_oe;
 `ifdef GL_TEST
   wire VPWR = 1'b1;
@@ -41,7 +39,7 @@ module tb ();
       .ui_in  (input_fir),    // Dedicated inputs
       .uo_out (output_fir),   // Dedicated outputs
       .uio_in (uio_in),   // IOs: Input path
-     .uio_out ({y_trio, x_trio, uio_out_dum}),  // IOs: Output path
+     .uio_out (uio_out),  // IOs: Output path
       .uio_oe (uio_oe),   // IOs: Enable path (active high: 0=input, 1=output)
       .ena    (ena),      // enable - goes high when design is selected
       .clk    (clk),      // clock
