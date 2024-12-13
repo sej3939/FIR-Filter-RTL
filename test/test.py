@@ -6,7 +6,7 @@ from cocotb.clock import Clock
 from cocotb.triggers import ClockCycles
 
 
-"""
+
 # FIR filter implementation in Python (matching the C implementation)
 N_TAPS = 6
 c = [75, 0, 95, 95, 0, 75]
@@ -35,7 +35,6 @@ async def test_project(dut):
     cocotb.start_soon(clock.start())
 
     dut.rst_n.value = 0;
-    dut.ena.value = 1;
 
     dut._log.info("Test project behavior")
 
@@ -49,7 +48,7 @@ async def test_project(dut):
 
         # Print the result for verification
         dut._log.info(f"i: {i} - Expected y: {expected_output} - DUT y: {dut.output_fir.value}.")
-"""
+
 """
 import cocotb
 from cocotb.clock import Clock
