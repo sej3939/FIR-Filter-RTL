@@ -50,4 +50,4 @@ async def test_project(dut):
         time += 44
         # Print the result for verification
         assert expected_output == dut.output_fir.value.integer
-        dut._log.info(f"time - {time} - i: {i-1} - Expected y: {expected_output} - DUT y: {dut.output_fir.value.integer}")
+        dut._log.info(f"time - {time} - i: {i} - Expected y: {expected_output} - DUT y: {dut.output_fir.value.integer}")
