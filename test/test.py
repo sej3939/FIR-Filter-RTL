@@ -53,7 +53,7 @@ async def test_project(dut):
             time += 1
         await ClockCycles(dut.clk, 1)
         # Print the result for verification
-        dut._log.info(f"time - {time} - i: {i} - Expected y: {expected_output} - DUT y: {dut.output_fir.value.integer}.")
+        dut._log.info(f"time - {time} - i: {i} - Expected y: {expected_output} - DUT y: {dut.output_fir.value}.")
 
 """
 import cocotb
