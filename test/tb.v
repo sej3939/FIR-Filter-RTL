@@ -20,7 +20,7 @@ module tb ();
   reg [7:0] input_fir;
   reg [7:0] uio_in;
   wire [7:0] output_fir;
-   wire [7:0] uio_out;
+  wire [7:0] uio_out;
   wire [7:0] uio_oe;
 `ifdef GL_TEST
   wire VPWR = 1'b1;
