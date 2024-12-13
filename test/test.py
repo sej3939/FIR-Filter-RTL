@@ -25,6 +25,7 @@ def fir(x):
             shift_reg[i] = shift_reg[i-1]
             acc += shift_reg[i] * c[i]
     return acc
+    
 @cocotb.test()
 async def test_project(dut):
     dut._log.info("Start")
@@ -36,12 +37,11 @@ async def test_project(dut):
     dut.rst_n.value = 0;
     await ClockCycles(dut.clk, 1)
     dut.rst_n.value = 1;
+    await ClockCycles(dut.clk, 1)
 
     dut._log.info("Test project behavior")
-
+    
     time = 0
-    while dut.y_trio.value == 0:
-            await ClockCycles(dut.clk, 1)
     # Testbench using cocotb
     for i in range(20):  # Iterate over 30 input values
         # Apply the input value `i` and get the output from `fir` function
