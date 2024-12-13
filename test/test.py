@@ -56,7 +56,7 @@ from cocotb.triggers import RisingEdge, FallingEdge, Timer
 
 @cocotb.test()
 async def test_fir(dut):
-    """ Testbench for FIR module using Cocotb """
+    #Testbench for FIR module using Cocotb
 
     # Create a clock with a period of 10ns (100 MHz)
     clock = Clock(dut.clk, 10, units="ns")
